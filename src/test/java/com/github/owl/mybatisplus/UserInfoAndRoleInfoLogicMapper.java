@@ -12,6 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2022-08-27
  **/
 @Mapper
-public interface UserInfoAndRoleInfoMapper extends JoinMapper<UserInfoAndRoleInfoEntity> {
+public interface UserInfoAndRoleInfoLogicMapper extends JoinMapper<UserInfoAndRoleInfoLogicDeleteEntity> {
 
 }

@@ -1,6 +1,5 @@
 package com.github.owl.mybatisplus.query;
 
-import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
@@ -19,37 +18,37 @@ import java.util.function.Predicate;
  * @author light
  * @since 2022-08-27
  **/
-public class LambdaJoinQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJoinQueryWrapper<T>>
-    implements JoinQuery<LambdaJoinQueryWrapper<T>, T, SFunction<T, ?>> {
+public class JoinLambdaQueryWrapper<T> extends AbstractJoinLambdaWrapper<T, JoinLambdaQueryWrapper<T>>
+    implements JoinQuery<JoinLambdaQueryWrapper<T>, T, SFunction<T, ?>> {
 
   /**
    * 查询字段
    */
   private SharedString sqlSelect = new SharedString();
 
-  public LambdaJoinQueryWrapper() {
+  public JoinLambdaQueryWrapper() {
     this((T) null);
   }
 
   @Override
-  protected LambdaJoinQueryWrapper<T> instance() {
-    return new LambdaJoinQueryWrapper<>(getEntity(), getEntityClass(), null, paramNameSeq,
+  protected JoinLambdaQueryWrapper<T> instance() {
+    return new JoinLambdaQueryWrapper<>(getEntity(), getEntityClass(), null, paramNameSeq,
         paramNameValuePairs,
         new MergeSegments(), paramAlias, SharedString.emptyString(), SharedString.emptyString(),
         SharedString.emptyString());
   }
 
-  public LambdaJoinQueryWrapper(T entity) {
+  public JoinLambdaQueryWrapper(T entity) {
     super.setEntity(entity);
     super.initNeed();
   }
 
-  public LambdaJoinQueryWrapper(Class<T> entityClass) {
+  public JoinLambdaQueryWrapper(Class<T> entityClass) {
     super.setEntityClass(entityClass);
     super.initNeed();
   }
 
-  LambdaJoinQueryWrapper(T entity, Class<T> entityClass, SharedString sqlSelect,
+  JoinLambdaQueryWrapper(T entity, Class<T> entityClass, SharedString sqlSelect,
       AtomicInteger paramNameSeq,
       Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments, SharedString paramAlias,
       SharedString lastSql, SharedString sqlComment, SharedString sqlFirst) {
@@ -66,7 +65,7 @@ public class LambdaJoinQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJo
   }
 
   @Override
-  public LambdaJoinQueryWrapper<T> selectCount(SFunction<T, ?> field) {
+  public JoinLambdaQueryWrapper<T> selectCount(SFunction<T, ?> field) {
     return typedThis;
   }
 
@@ -82,7 +81,7 @@ public class LambdaJoinQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJo
 
   @SafeVarargs
   @Override
-  public final LambdaJoinQueryWrapper<T> select(SFunction<T, ?>... columns) {
+  public final JoinLambdaQueryWrapper<T> select(SFunction<T, ?>... columns) {
     if (ArrayUtils.isNotEmpty(columns)) {
       this.sqlSelect.setStringValue(columnsToString(false, columns));
     }
@@ -91,9 +90,9 @@ public class LambdaJoinQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJo
 
 
   @Override
-  public LambdaJoinQueryWrapper<T> select(Class<T> entityClass,
+  public JoinLambdaQueryWrapper<T> select(Class<T> entityClass,
       Predicate<TableFieldInfo> predicate) {
-    return null;
+    return typedThis;
   }
 
   @Override

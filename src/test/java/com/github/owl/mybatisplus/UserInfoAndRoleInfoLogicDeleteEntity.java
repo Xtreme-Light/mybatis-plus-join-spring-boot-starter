@@ -19,14 +19,18 @@ import lombok.ToString;
 })
 @ToString
 @EqualsAndHashCode
-public class UserInfoAndRoleInfoEntity {
+public class UserInfoAndRoleInfoLogicDeleteEntity {
 
   private Long t1Id;
   private String t1UserName;
+
+  private Boolean t1Deleted;
   private Long t2UserId;
   private Long t2RoleId;
   private Long t3Id;
   private String t3RoleName;
+
+  private Boolean t3Deleted;
 
   public Long getT1Id() {
     return t1Id;
@@ -74,5 +78,21 @@ public class UserInfoAndRoleInfoEntity {
 
   public void setT3RoleName(String t3RoleName) {
     this.t3RoleName = t3RoleName;
+  }
+
+  public Boolean getT1Deleted() {
+    return t1Deleted;
+  }
+
+  public void setT1Deleted(Boolean t1Deleted) {
+    this.t1Deleted = t1Deleted;
+  }
+
+  public Boolean getT3Deleted() {
+    return t3Deleted;
+  }
+
+  public void setT3Deleted(Boolean t3Deleted) {
+    this.t3Deleted = t3Deleted;
   }
 }

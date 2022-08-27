@@ -1,5 +1,8 @@
 plugins {
     id 'java'
+    id 'java-library'
+    id 'maven-publish'
+//    id 'java-platform'
 }
 
 group 'com.github.owl'
@@ -8,12 +11,66 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
+def springBootVersion = '2.7.3'
+def mybatisPlusVersion = '3.5.2'
+def junitVersion = '5.9.0'
+def lombokVersion = '1.18.24'
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+//    compileOnly 'com.baomidou:mybatis-plus-boot-starter:3.5.2'
+    implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+    annotationProcessor "org.springframework.boot:spring-boot-autoconfigure-processor:${springBootVersion}"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+//    implementation 'org.projectlombok:lombok:1.18.24'
+    implementation "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"
+    testImplementation "com.baomidou:mybatis-plus-boot-starter-test:${mybatisPlusVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation 'mysql:mysql-connector-java:8.0.30'
+
 }
 
 test {
     useJUnitPlatform()
 }
+ext {
+    configurations {
+        javaVersion = JavaVersion.VERSION_11
+    }
+}
+subprojects {
+    sourceCompatibility = "${javaVersion}"
+    targetCompatibility = "${javaVersion}"
+
+}
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+tasks.withType(Javadoc) {
+    options.encoding("UTF-8")
+}
+tasks.withType(JavaCompile) {
+    options.encoding("UTF-8")
+}
+javadoc {
+    afterEvaluate {
+        configure(options) {
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version true
+            failOnError false
+            links "https://docs.oracle.com/javase/8/docs/api"
+        }
+    }
+}
+compileJava.dependsOn(processResources)
