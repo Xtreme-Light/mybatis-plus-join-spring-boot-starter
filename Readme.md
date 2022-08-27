@@ -79,6 +79,8 @@ ORDER BY t1.id ASC, t3.id ASC
 
 提供的API 参见com.github.owl.mybatisplus.mapper.JoinMapper和对应的java doc注释
 
+包括联合查询的 查询列表 查询分页 查询计数三个主要功能。
+
 支持Lambda风格的查询 参见com.github.owl.mybatisplus.MybatisPlusJoinTest.lambdaTest
 
 ```java
