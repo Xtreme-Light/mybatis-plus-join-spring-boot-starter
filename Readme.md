@@ -79,3 +79,26 @@ ORDER BY t1.id ASC, t3.id ASC
 
 提供的API 参见com.github.owl.mybatisplus.mapper.JoinMapper和对应的java doc注释
 
+支持Lambda风格的查询 参见com.github.owl.mybatisplus.MybatisPlusJoinTest.lambdaTest
+
+```java
+    final JoinLambdaQueryWrapper<UserInfoAndRoleInfoEntity> joinLambdaQueryWrapper=new JoinLambdaQueryWrapper<>();
+    joinLambdaQueryWrapper.eq(UserInfoAndRoleInfoEntity::getT1UserName,"路人甲");
+    joinLambdaQueryWrapper.orderByDesc(UserInfoAndRoleInfoEntity::getT3Id);
+final Long aLong1=userInfoAndRoleInfoMapper.selectInnerJoinCount(joinLambdaQueryWrapper);
+    assert aLong1==3;
+    joinLambdaQueryWrapper.eq(UserInfoAndRoleInfoEntity::getT3RoleName,"东厂厂主");
+final List<UserInfoAndRoleInfoEntity> userInfoAndRoleInfoEntities=userInfoAndRoleInfoMapper.selectInnerJoinList(
+    joinLambdaQueryWrapper);
+    assert userInfoAndRoleInfoEntities.size()==1;
+    joinLambdaQueryWrapper.select(UserInfoAndRoleInfoEntity::getT1UserName,
+    UserInfoAndRoleInfoEntity::getT3RoleName);
+final List<UserInfoAndRoleInfoEntity> userInfoAndRoleInfoEntities1=userInfoAndRoleInfoMapper.selectInnerJoinList(
+    joinLambdaQueryWrapper);
+    assert userInfoAndRoleInfoEntities1.get(0).getT1UserName().equals("路人甲");
+    assert userInfoAndRoleInfoEntities1.get(0).getT3RoleName().equals("东厂厂主");
+    assert userInfoAndRoleInfoEntities1.get(0).getT2UserId()==null;
+final Page<UserInfoAndRoleInfoEntity> userInfoAndRoleInfoEntityPage=userInfoAndRoleInfoMapper.selectInnerJoinPage(
+    Page.of(1,1,true),joinLambdaQueryWrapper);
+    assert userInfoAndRoleInfoEntityPage.getTotal()==1L;
+```
